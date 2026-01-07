@@ -1,0 +1,45 @@
+
+USER MANAGEMENT MODULE:
+(DONE)
+- Only admins are able to create new users, see list of all users and delete users
+-Every time if we change user status (Active / InActive) it need to create new password not the last one.
+-Auto logout after defined inactivity {time. protected int $timeout = 300; InactivityLogout.php}
+-auto change password after 7 days {$threshold = now()->subSeconds(300); DeactivateInactiveUsers.php}
+-Account lock(inactive) after multiple invalid login attempts. admin can activate again {$maxAttempts = 3; // or hardcode 5 LoginController.php}
+-Admin can force logout any user.
+- Add a Rule to Always ask for new password required whenever User Profile status changes.                   
+Need to Add option - Profile Photo, Signature, Report to (manager)   
+Need to Organize Fields in the proper view.
+Password Strength Also Add restriction for New Password while changing Status
+- All users can access their account on single PC at a time; if logged in on another PC, previous session should logout automatically.
+- deleted users will be soft delete not fully delete
+1) Every Password entry Fields must have an option to view or not to view currently typed password. add Please add the Strength meter for new passwords. Sample Screenshot Below..
+
+
+2) Make fields organized In Adding new user view and editing existing User View. sequence Provide Below.
+
+Personal Details
+First Name (Real). Last Name (Real)
+Date of Birth
+NIC
+
+Login Details
+User ID, Password, Status
+
+Official Details
+Display Name
+Employee ID
+First Name (Pseudo),  Last Name (Pseudo)
+Official Email address
+Role
+Designation
+
+3) In Profile view we just need to provide users only to view their details and only give them rights to change their profile picture and password. 
+and make the Profile view organise.
+ 
+(PENDING)
+
+
+
+- user signature - limit to:
+                        only for collectors and manager  
