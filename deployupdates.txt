@@ -1,0 +1,152 @@
+✅ STANDARD FUTURE UPDATE GUIDE (Laravel + Git + cPanel)
+
+This assumes:
+
+Laravel already deployed
+
+Git is connected
+
+.env & vendor are NOT in Git
+
+PHP 8.2 is active
+
+🧑‍💻 PART A: WHAT TO DO IN VS CODE (LOCAL)
+1️⃣ Make Your Changes
+
+Examples:
+
+Blade views
+
+Controllers
+
+CSS / JS
+
+Routes
+
+Config (be careful)
+
+2️⃣ Verify What Changed
+git status
+
+
+✔ Confirm only expected files changed
+❌ No .env
+❌ No vendor/
+
+3️⃣ Commit Your Changes
+git add .
+git commit -m "Update billing views"
+
+
+Use clear messages, e.g.:
+
+Fix invoice layout
+
+Add payment status badge
+
+Refactor billing controller
+
+4️⃣ Push to Repository
+git push origin main
+
+
+That’s it on your local machine ✅
+
+🖥️ PART B: WHAT TO DO ON SERVER (SSH / cPanel)
+5️⃣ SSH Into Server
+cd /home/doctororg/public_html/billing.doctormgt.org
+
+6️⃣ Pull Latest Code
+git pull origin main
+
+
+If you see merge conflict → STOP and tell me.
+
+🔄 WHAT YOU RUN NEXT DEPENDS ON WHAT CHANGED
+✅ CASE 1: Only Views / CSS / JS (MOST COMMON)
+/opt/cpanel/ea-php82/root/usr/bin/php artisan view:clear
+
+
+Done ✅
+
+✅ CASE 2: PHP Logic / Controllers / Routes
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
+/opt/cpanel/ea-php82/root/usr/bin/php artisan route:cache
+
+✅ CASE 3: Config Files Changed (config/*.php)
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
+/opt/cpanel/ea-php82/root/usr/bin/php artisan config:cache
+
+✅ CASE 4: New Packages Added (RARE)
+
+⚠️ Only if composer.json changed:
+
+/opt/cpanel/ea-php82/root/usr/bin/php composer.phar install --no-dev --optimize-autoloader
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
+
+🚨 CASE 5: Database Changes (Migrations)
+
+⚠️ Be careful on production.
+
+/opt/cpanel/ea-php82/root/usr/bin/php artisan migrate --force
+
+
+Then:
+
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
+
+🔐 ABSOLUTE RULES (MEMORIZE THESE)
+
+❌ Never push .env
+❌ Never edit production code manually
+❌ Never run composer update on production
+❌ Never set APP_DEBUG=true on live
+❌ Never delete storage/
+
+🧪 QUICK HEALTH CHECK (OPTIONAL)
+
+After updates:
+
+/opt/cpanel/ea-php82/root/usr/bin/php artisan --version
+
+
+And check site in browser.
+
+🧯 IF SOMETHING GOES WRONG
+Rollback to previous commit:
+git log --oneline
+git checkout <previous_commit_hash>
+
+
+Then:
+
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
+
+🧠 PRODUCTION UPDATE FLOW (ONE SCREEN CHEAT-SHEET)
+VS Code
+git add .
+git commit -m "Your message"
+git push
+
+Server
+git pull
+php artisan optimize:clear
+
+
+(Use PHP 8.2 path if needed)
+
+🎯 NEXT-LEVEL (Optional Improvements)
+
+If you want, I can help you set up:
+
+🔁 Auto-deploy on git push
+
+🧪 Staging environment
+
+🧵 Zero-downtime deploys
+
+🔒 Server hardening
+
+📦 Release-based deployments
+
+Just tell me 👍

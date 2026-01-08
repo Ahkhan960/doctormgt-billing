@@ -1,0 +1,229 @@
+🚀 LARAVEL DEPLOYMENT GUIDE (cPanel + GitHub + SSH)
+Assumptions
+
+Subdomain: billing.doctormgt.org
+
+Path:
+
+/home/doctororg/public_html/billing.doctormgt.org
+
+
+PHP version: 8.2
+
+You already have a GitHub repo
+
+You use VS Code
+
+🧩 PART 1: PREPARE PROJECT LOCALLY (VS CODE)
+1️⃣ Clean Your Project (IMPORTANT)
+
+Before pushing to GitHub, make sure these are NOT in repo:
+
+❌ Do NOT commit:
+
+.env
+/vendor
+/node_modules
+/storage/*.key
+
+.gitignore (must contain)
+/vendor
+/node_modules
+.env
+/storage/*.key
+/public/storage
+
+2️⃣ Commit & Push Changes
+git status
+git add .
+git commit -m "Production ready version"
+git push origin main
+
+🌐 PART 2: SERVER SETUP (cPanel SIDE)
+3️⃣ Create Subdomain (cPanel)
+
+Subdomain: billing
+
+Domain: doctormgt.org
+
+Document Root:
+
+/public_html/billing.doctormgt.org
+
+4️⃣ Set PHP Version
+
+cPanel → MultiPHP Manager
+
+Select domain
+
+PHP Version: 8.2
+
+Save
+
+5️⃣ Enable Required PHP Extensions
+
+cPanel → Select PHP Version → Extensions
+
+Enable:
+
+openssl
+pdo
+pdo_mysql
+mbstring
+tokenizer
+xml
+ctype
+json
+fileinfo
+bcmath
+curl
+zip
+
+🔐 PART 3: SSH & GIT SETUP
+6️⃣ Login to Server via SSH
+ssh doctororg@server-ip
+cd public_html/billing.doctormgt.org
+
+7️⃣ Generate SSH Key (Server → GitHub)
+ssh-keygen -t ed25519
+cat ~/.ssh/id_ed25519.pub
+
+
+👉 Copy output
+
+GitHub → Repo → Settings → Deploy Keys
+
+Add key
+
+Allow write access (optional)
+
+8️⃣ Clone Project from GitHub
+git clone git@github.com:USERNAME/REPO.git .
+
+
+Verify:
+
+ls
+
+
+You should see:
+
+artisan
+app
+bootstrap
+config
+public
+storage
+
+🧱 PART 4: LARAVEL SETUP
+9️⃣ Install Composer Dependencies
+/opt/cpanel/ea-php82/root/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader
+
+🔟 Create .env File
+cp .env.example .env
+nano .env
+
+
+Set:
+
+APP_NAME="Billing System"
+APP_ENV=production
+APP_KEY=
+APP_DEBUG=false
+APP_URL=https://billing.doctormgt.org
+
+DB_DATABASE=xxxx
+DB_USERNAME=xxxx
+DB_PASSWORD=xxxx
+
+FILESYSTEM_DISK=public
+
+
+Save.
+
+1️⃣1️⃣ Generate App Key
+/opt/cpanel/ea-php82/root/usr/bin/php artisan key:generate
+
+1️⃣2️⃣ Set Permissions (VERY IMPORTANT)
+chmod -R 775 storage bootstrap/cache
+chown -R doctororg:doctororg .
+
+1️⃣3️⃣ Create Storage Symlink
+rm -rf public/storage
+/opt/cpanel/ea-php82/root/usr/bin/php artisan storage:link
+
+1️⃣4️⃣ Run Migrations (If Needed)
+/opt/cpanel/ea-php82/root/usr/bin/php artisan migrate --force
+
+
+(Skip if DB already ready)
+
+1️⃣5️⃣ Optimize for Production
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize
+
+⏰ PART 5: CRON JOB (Scheduler)
+
+cPanel → Cron Jobs
+
+Command:
+
+/opt/cpanel/ea-php82/root/usr/bin/php /home/doctororg/public_html/billing.doctormgt.org/artisan schedule:run >> /dev/null 2>&1
+
+
+Time:
+
+Every minute
+
+🔄 PART 6: FUTURE UPDATES (VERY IMPORTANT)
+🔁 When You Change Code (Views / Controllers)
+VS Code:
+git add .
+git commit -m "UI fixes"
+git push origin main
+
+Server:
+cd /home/doctororg/public_html/billing.doctormgt.org
+git pull origin main
+
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize
+
+
+🚫 NEVER upload ZIP again
+🚫 NEVER touch .env
+🚫 NEVER delete vendor on server
+
+🔐 OPTIONAL: PERMISSIONS FIX (If Images Break)
+chmod -R 775 storage public
+
+🧪 FINAL CHECKLIST
+
+✔ Site loads
+✔ Login works
+✔ Image uploads visible
+✔ Cron working
+✔ No errors in logs
+
+Logs:
+
+storage/logs/laravel.log
+
+🏁 YOU NOW HAVE A PROFESSIONAL DEPLOYMENT PIPELINE
+
+You can now:
+
+Deploy on any new server
+
+Update safely using Git
+
+Avoid downtime
+
+Avoid broken uploads
+
+If you want, next I can help you:
+✅ Add staging environment
+✅ Add GitHub Actions auto-deploy
+✅ Secure .env
+✅ Add rollback strategy
+
+Just tell me 👍

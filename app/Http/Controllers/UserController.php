@@ -41,13 +41,13 @@ class UserController extends Controller
                 'regex:/^[A-Za-z\'\- ]+$/'
             ],
             'name' => ['required','string','max:255','regex:/^[A-Za-z\'\- ]+$/'],
-            'email'            => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'email'            => ['required', 'email', 'max:255', 'unique:users,email,'],
             'username' => [
                 'required',
                 'string',
                 'max:255',
                 'regex:/^[A-Za-z0-9._]+$/',
-                'unique:users,username,' . $user->id
+                'unique:users,username,',
             ],
             'password' => [
                             'nullable',

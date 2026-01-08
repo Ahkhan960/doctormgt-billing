@@ -54,6 +54,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile.edit');
     Route::put('/profile', [UserController::class, 'profileUpdate'])->name('profile.update');
 
+    // auto logout route
+    Route::get('/auto-logout', function (Request $request) {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()
+            ->route('login')
+            ->with('error', 'You have been logged out due to inactivity.');
+    })->name('auto.logout');
+
     Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);
     Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 });
+

@@ -3,10 +3,10 @@
 @section('title', 'My Profile')
 
 @section('css')
-     <!-- jsvectormap css -->
+     {{-- <!-- jsvectormap css -->
     <link href="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Plugins css -->
-    <link href="{{ URL::asset('build/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('build/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" /> --}}
     <style>
         /*password strength meter */
         .password-strength {
@@ -45,9 +45,9 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        @if(session('success'))
+        {{-- @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        @endif --}}
 
         <div class="card">
             <div class="card-header">
@@ -216,16 +216,7 @@
 </div>
 @endsection
 @section('scripts')
-    <!-- apexcharts -->
-    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
-
-    <!-- Vector map-->
-    <script src="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
-
-    <script src="{{ URL::asset('build/js/pages/dashboard.init.js') }}"></script>
-    <!-- App js -->
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    {{-- <script src="{{ URL::asset('build/js/app.js') }}"></script> --}}
     <script>
         // password strength meter
         document.addEventListener('DOMContentLoaded', function () {

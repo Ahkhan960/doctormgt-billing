@@ -3,8 +3,8 @@
     User Management
 @endsection
 @section('css')
-    <!-- jsvectormap css -->
-    <link href="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <!-- jsvectormap css -->
+    <link href="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
 @endsection
 @section('page-title')
     User Management
@@ -17,14 +17,14 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        @if(session('success'))
+        {{-- @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         @if (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
-        @endif
+        @endif --}}
 
         {{--
         <div class="card">
@@ -148,7 +148,7 @@
                                                         </a>
                                                         <form action="{{ route('users.destroy', $user) }}"
                                                             method="POST"
-                                                            onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                            class="delete-user-form">
                                                             @csrf
                                                             @method('DELETE')
                                                             @if($user->role !== 'admin')
@@ -201,15 +201,44 @@
     </div>
 </div>
 @endsection
+
 @section('scripts')
-        <!-- apexcharts -->
+        {{-- <!-- apexcharts -->
         <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
 
         <!-- Vector map-->
         <script src="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.js') }}"></script>
         <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
 
-        <script src="{{ URL::asset('build/js/pages/dashboard.init.js') }}"></script>
+        <script src="{{ URL::asset('build/js/pages/dashboard.init.js') }}"></script> --}}
         <!-- App js -->
-        <script src="{{ URL::asset('build/js/app.js') }}"></script>
+        {{-- <script src="{{ URL::asset('build/js/app.js') }}"></script> --}}
+
+        {{-- delete confirmation script  --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                function handleDeleteSubmit(e) {
+                    e.preventDefault();
+                    const form = this;
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'Are you sure you want to delete this user?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.removeEventListener('submit', handleDeleteSubmit);
+                            form.submit();
+                        }
+                    });
+                }
+
+                document.querySelectorAll('.delete-user-form').forEach(function (form) {
+                    form.addEventListener('submit', handleDeleteSubmit);
+                });
+            });
+        </script>
 @endsection
