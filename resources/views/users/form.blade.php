@@ -129,6 +129,7 @@
                             <label class="form-label">Username</label>
                             <input type="text" name="username"
                                    value="{{ old('username', $user->username) }}"
+                                    @if($mode === 'edit') readonly @endif
                                    class="form-control @error('username') is-invalid @enderror">
                             @error('username')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
