@@ -26,6 +26,7 @@ return new class extends Migration
         $table->timestamp('last_login_at')->nullable();
         $table->unsignedInteger('failed_login_attempts')->default(0);
         $table->unsignedInteger('session_version')->default(1);
+        $table->unsignedInteger('force_logout_version')->default(0);
 
         $table->string('password');
         $table->rememberToken();
@@ -37,7 +38,7 @@ return new class extends Migration
 
         $table->string('pseudo_first_name')->nullable();
         $table->string('pseudo_last_name')->nullable();
-        $table->string('nic')->nullable();
+        $table->string('phone')->nullable();
         $table->date('dob')->nullable();
 
         $table->string('signature_path')->nullable();

@@ -15,13 +15,28 @@ class CheckUserStatus
 
             // Force-logout check: compare session's version with user's version
             $sessionVersion = (int) session('session_version', 0);
-            if ($sessionVersion !== (int) $user->session_version) {
+            $forceVersion   = (int) session('force_logout_version', 0);
+
+            // 1) Admin forced logout: force_logout_version changed
+            if ($forceVersion !== (int) $user->force_logout_version) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
 
                 return redirect()->route('login')
                     ->withErrors(['login' => 'You have been logged out by an administrator.']);
+            }
+
+            // 2) Single-device logout: session_version changed (logged in somewhere else)
+            if ($sessionVersion !== (int) $user->session_version) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect()->route('login')
+                    ->withErrors([
+                        'login' => 'Your account is logged in from another device. You can only be logged in from one device at a time.',
+                    ]);
             }
 
             // Existing active/inactive check

@@ -31,7 +31,7 @@ class User extends Authenticatable
         'employee_id',
         'pseudo_first_name',
         'pseudo_last_name',
-        'nic',
+        'phone',
         'dob',
         'username',
         'profile_picture_path',

@@ -118,8 +118,11 @@ class LoginController extends Controller
         $user->failed_login_attempts = 0;
         $user->save();
 
-        // store the new session version in this login’s session
-        session(['session_version' => $user->session_version]);
+        // store both versions in this login's session
+        session([
+            'session_version' => $user->session_version,
+            'force_logout_version' => $user->force_logout_version,
+        ]);
     }
 
 }

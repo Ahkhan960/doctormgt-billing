@@ -21,7 +21,7 @@ Password Strength Also Add restriction for New Password while changing Status
 Personal Details
 First Name (Real). Last Name (Real)
 Date of Birth
-NIC
+phone
 
 Login Details
 User ID, Password, Status
@@ -36,7 +36,15 @@ Designation
 
 3) In Profile view we just need to provide users only to view their details and only give them rights to change their profile picture and password. 
 and make the Profile view organise.
- 
+
+Need to change the error if the user id is logged out by a different scenario.
+
+Need to change the error if the user id is logged out by a different scenario.
+Change the "Change Password" into "Password" due to the password change option not available on the login screen, so remove Forgot password option too.
+Need to Remove "sign in with" Feature. it's not required.
+
+while uploading an image for Signature or profile pic it's not giving the preview before saving it.
+
 (PENDING)
 
 

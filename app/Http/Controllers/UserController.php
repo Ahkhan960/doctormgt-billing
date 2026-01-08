@@ -33,13 +33,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'first_name'       => ['nullable', 'string', 'max:255'],
-            'last_name'        => ['nullable', 'string', 'max:255'],
-            'name'             => ['required', 'string', 'max:255'],
-            'email'            => ['required', 'email', 'max:255', 'unique:users,email'],
-            'username'         => ['required', 'string', 'max:255', 'unique:users,username'],
+            'first_name' => ['required', 'string', 'max:50', 'regex:/^[A-Za-z\'\- ]+$/'],
+            'last_name' => [
+                'nullable',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z\'\- ]+$/'
+            ],
+            'name' => ['required','string','max:255','regex:/^[A-Za-z\'\- ]+$/'],
+            'email'            => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9._]+$/',
+                'unique:users,username,' . $user->id
+            ],
             'password' => [
-                            'required',
+                            'nullable',
                             Password::min(8)
                                 ->letters()
                                 ->numbers()
@@ -47,13 +58,47 @@ class UserController extends Controller
                         ],
             'status'           => ['required', 'in:active,inactive'],
             'role'             => ['required', 'in:admin,manager,collector,biller'],
-            'designation'      => ['nullable', 'string', 'max:255'],
-            'employee_id'      => ['nullable', 'string', 'max:255'],
-            'pseudo_first_name'=> ['nullable', 'string', 'max:255'],
-            'pseudo_last_name' => ['nullable', 'string', 'max:255'],
-            'nic'              => ['nullable', 'string', 'max:255'],
+            'designation' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9\'\- ]+$/'
+            ],
+            'employee_id' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9\-]+$/'
+            ],
+            'pseudo_first_name' => [
+                'nullable',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z\'\- ]+$/'
+            ],
+            'pseudo_last_name' => [
+                'nullable',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z\'\- ]+$/'
+            ],
+            'phone'              => ['nullable', 'regex:/^\(\d{3}\)\s\d{3}-\d{4}$/'],
             'dob'              => ['nullable', 'date'],
-        ]);
+            'profile_picture'  => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'signature'        => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            ],
+            [
+                'first_name.regex' => 'First name may only contain letters.',
+                'last_name.regex'          => 'Last name may only contain letters, spaces, hyphens, and apostrophes.',
+                'phone.regex' => 'Phone number must be in the format (999) 999-9999.',
+                'name.regex'               => 'Name may only contain letters and spaces.',
+                'username.regex'           => 'Username may only contain letters, numbers, dots, and underscores.',
+                'designation.regex'        => 'Designation may only contain letters and numbers.',
+                'employee_id.regex'        => 'Employee ID may only contain letters, numbers, and hyphens.',
+                'pseudo_first_name.regex'  => 'Pseudo first name may only contain letters.',
+                'pseudo_last_name.regex'   => 'Pseudo last name may only contain letters.',
+            ]
+        );
 
         $data['password'] = Hash::make($data['password']);
 
@@ -76,11 +121,17 @@ class UserController extends Controller
 
         // 2) Admin updating any user → full update
         $data = $request->validate([
-            'first_name'       => ['nullable', 'string', 'max:255'],
-            'last_name'        => ['nullable', 'string', 'max:255'],
-            'name'             => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:50', 'regex:/^[A-Za-z\'\- ]+$/'],
+            'last_name' => ['nullable','string','max:50','regex:/^[A-Za-z\'\- ]+$/'],
+            'name' => ['required','string','max:255','regex:/^[A-Za-z\'\- ]+$/'],
             'email'            => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'username'         => ['required', 'string', 'max:255', 'unique:users,username,' . $user->id],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9._]+$/',
+                'unique:users,username,' . $user->id
+            ],
             'password' => [
                             'nullable',
                             Password::min(8)
@@ -90,15 +141,47 @@ class UserController extends Controller
                         ],
             'status'           => ['required', 'in:active,inactive'],
             'role'             => ['required', 'in:admin,manager,collector,biller'],
-            'designation'      => ['nullable', 'string', 'max:255'],
-            'employee_id'      => ['nullable', 'string', 'max:255'],
-            'pseudo_first_name'=> ['nullable', 'string', 'max:255'],
-            'pseudo_last_name' => ['nullable', 'string', 'max:255'],
-            'nic'              => ['nullable', 'string', 'max:255'],
+            'designation' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9\'\- ]+$/'
+            ],
+            'employee_id' => [
+                'nullable',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9\-]+$/'
+            ],
+            'pseudo_first_name' => [
+                'nullable',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z\'\- ]+$/'
+            ],
+            'pseudo_last_name' => [
+                'nullable',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-z\'\- ]+$/'
+            ],
+            'phone'              => ['nullable', 'regex:/^\(\d{3}\)\s\d{3}-\d{4}$/'],
             'dob'              => ['nullable', 'date'],
             'profile_picture'  => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'signature'        => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ]);
+            ],
+            [
+                'first_name.regex' => 'First name may only contain letters.',
+                'last_name.regex'          => 'Last name may only contain letters, spaces, hyphens, and apostrophes.',
+                'phone.regex' => 'Phone number must be in the format (999) 999-9999.',
+                'name.regex'               => 'Name may only contain letters and spaces.',
+                'username.regex'           => 'Username may only contain letters, numbers, dots, and underscores.',
+                'designation.regex'        => 'Designation may only contain letters and numbers.',
+                'employee_id.regex'        => 'Employee ID may only contain letters, numbers, and hyphens.',
+                'pseudo_first_name.regex'  => 'Pseudo first name may only contain letters.',
+                'pseudo_last_name.regex'   => 'Pseudo last name may only contain letters.',
+            ]
+        );
 
         if ($request->hasFile('profile_picture')) {
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
@@ -186,8 +269,8 @@ class UserController extends Controller
 
     public function forceLogout(User $user)
     {
-        // Only admins hit this route, and routes are already under auth+role:admin
         $user->session_version = (int) $user->session_version + 1;
+        $user->force_logout_version = (int) $user->force_logout_version + 1;
         $user->save();
 
         return redirect()->route('users.index')->with('success', 'User has been forced to log out.');
@@ -195,6 +278,13 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+
+        if ($user->role === 'admin') {
+            return redirect()
+                ->back()
+                ->with('error', 'Admin accounts cannot be deleted.');
+        }
+
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');

@@ -3,6 +3,10 @@
 @section('title', 'My Profile')
 
 @section('css')
+     <!-- jsvectormap css -->
+    <link href="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Plugins css -->
+    <link href="{{ URL::asset('build/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
         /*password strength meter */
         .password-strength {
@@ -63,7 +67,7 @@
                                         ? asset('storage/'.$user->profile_picture_path)
                                         : URL::asset('build/images/users/avatar-2.jpg');
                                 @endphp
-                                <img src="{{ $profileSrc }}" alt="Profile picture"
+                                <img id="profile_preview" src="{{ $profileSrc }}" alt="Profile picture"
                                      class="img-thumbnail rounded-circle"
                                      style="width: 80px; height: 80px; object-fit: cover;">
 
@@ -88,20 +92,18 @@
                         </div>
 
                         {{-- Signature --}}
-                        <div class="col-md-4 mb-3">
+                        {{-- <div class="col-md-4 mb-3">
                             <label class="form-label d-block">Signature (PNG, JPEG)</label>
                             <div class="position-relative d-inline-block">
                                 @if($user->signature_path)
-                                    <img src="{{ asset('storage/'.$user->signature_path) }}"
-                                         alt="Signature" class="img-thumbnail"
-                                         style="width: 160px; height: 80px; object-fit: contain;">
+                                    <img id="signature_preview" src="{{ asset('storage/'.$user->signature_path) }}"
+                                        alt="Signature" class="img-thumbnail"
+                                        style="width: 160px; height: 80px; object-fit: contain;">
                                 @else
-                                    <div class="img-thumbnail d-flex align-items-center justify-content-center"
-                                         style="width: 160px; height: 80px;">
-                                        <span class="text-muted">No signature</span>
-                                    </div>
+                                    <img id="signature_preview" src="" alt="Signature"
+                                        class="img-thumbnail d-none"
+                                        style="width: 160px; height: 80px; object-fit: contain;">
                                 @endif
-
                                 <button type="button"
                                         class="btn btn-sm btn-primary position-absolute d-flex align-items-center justify-content-center"
                                         style="right: -5px; bottom: -5px; border-radius: 50%; width: 24px; height: 24px; padding: 0;"
@@ -114,7 +116,7 @@
                                    accept="image/png,image/jpeg"
                                    class="d-none @error('signature') is-invalid @enderror">
                             @error('signature')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                        </div>
+                        </div> --}}
 
                         {{-- Password --}}
                         <div class="col-md-4 mb-3 password-field" style="width: 20%">
@@ -214,80 +216,114 @@
 </div>
 @endsection
 @section('scripts')
-        <script>
-            // password strength meter
-            document.addEventListener('DOMContentLoaded', function () {
-                const fields = document.querySelectorAll('.password-field');
+    <!-- apexcharts -->
+    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-                fields.forEach(function (field) {
-                    const input = field.querySelector('.password-input');
-                    const toggle = field.querySelector('.password-toggle');
-                    const bar = field.querySelector('.password-strength-bar');
-                    const label = field.querySelector('.password-strength-label');
+    <!-- Vector map-->
+    <script src="{{ URL::asset('build/libs/jsvectormap/jsvectormap.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
 
-                    if (!input) return;
+    <script src="{{ URL::asset('build/js/pages/dashboard.init.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script>
+        // password strength meter
+        document.addEventListener('DOMContentLoaded', function () {
+            const fields = document.querySelectorAll('.password-field');
 
-                    if (toggle) {
-                        toggle.addEventListener('click', function () {
-                            const isPassword = input.type === 'password';
-                            input.type = isPassword ? 'text' : 'password';
+            fields.forEach(function (field) {
+                const input = field.querySelector('.password-input');
+                const toggle = field.querySelector('.password-toggle');
+                const bar = field.querySelector('.password-strength-bar');
+                const label = field.querySelector('.password-strength-label');
 
-                            const icon = toggle.querySelector('i');
-                            if (icon) {
-                                icon.classList.toggle('ri-eye-off-line', !isPassword);
-                                icon.classList.toggle('ri-eye-line', isPassword);
-                            }
-                        });
-                    }
+                if (!input) return;
 
-                    input.addEventListener('input', function () {
-                        const val = input.value || '';
-                        const score = calculatePasswordScore(val);
+                if (toggle) {
+                    toggle.addEventListener('click', function () {
+                        const isPassword = input.type === 'password';
+                        input.type = isPassword ? 'text' : 'password';
 
-                        let width = '0%';
-                        let color = '#dc3545';
-                        let text = 'Too weak';
-
-                        if (!val.length) {
-                            width = '0%';
-                            text = 'Type a password';
-                        } else if (score <= 1) {
-                            width = '25%';
-                            color = '#dc3545';
-                            text = 'Too weak';
-                        } else if (score === 2) {
-                            width = '50%';
-                            color = '#fd7e14';
-                            text = 'Weak';
-                        } else if (score === 3) {
-                            width = '75%';
-                            color = '#ffc107';
-                            text = 'Medium';
-                        } else if (score >= 4) {
-                            width = '100%';
-                            color = '#198754';
-                            text = 'Strong';
-                        }
-
-                        if (bar) {
-                            bar.style.setProperty('--strength-width', width);
-                            bar.style.setProperty('--strength-color', color);
-                        }
-                        if (label) {
-                            label.textContent = text;
+                        const icon = toggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('ri-eye-off-line', !isPassword);
+                            icon.classList.toggle('ri-eye-line', isPassword);
                         }
                     });
-                });
-
-                function calculatePasswordScore(password) {
-                    let score = 0;
-                    if (password.length >= 8) score++;
-                    if (/[A-Z]/.test(password)) score++;
-                    if (/[a-z]/.test(password)) score++;
-                    if (/\d/.test(password)) score++;
-                    if (/[^A-Za-z0-9]/.test(password)) score++;
-                    return score;
                 }
+
+                input.addEventListener('input', function () {
+                    const val = input.value || '';
+                    const score = calculatePasswordScore(val);
+
+                    let width = '0%';
+                    let color = '#dc3545';
+                    let text = 'Too weak';
+
+                    if (!val.length) {
+                        width = '0%';
+                        text = 'Type a password';
+                    } else if (score <= 1) {
+                        width = '25%';
+                        color = '#dc3545';
+                        text = 'Too weak';
+                    } else if (score === 2) {
+                        width = '50%';
+                        color = '#fd7e14';
+                        text = 'Weak';
+                    } else if (score === 3) {
+                        width = '75%';
+                        color = '#ffc107';
+                        text = 'Medium';
+                    } else if (score >= 4) {
+                        width = '100%';
+                        color = '#198754';
+                        text = 'Strong';
+                    }
+
+                    if (bar) {
+                        bar.style.setProperty('--strength-width', width);
+                        bar.style.setProperty('--strength-color', color);
+                    }
+                    if (label) {
+                        label.textContent = text;
+                    }
+                });
             });
-        </script>
+
+            function calculatePasswordScore(password) {
+                let score = 0;
+                if (password.length >= 8) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/\d/.test(password)) score++;
+                if (/[^A-Za-z0-9]/.test(password)) score++;
+                return score;
+            }
+        });
+    </script>
+    <script>
+        // profile picture and signature preview
+        document.addEventListener('DOMContentLoaded', function () {
+            function attachImagePreview(inputId, imgId) {
+                const input = document.getElementById(inputId);
+                const img   = document.getElementById(imgId);
+
+                if (!input || !img) return;
+
+                input.addEventListener('change', function () {
+                    const file = this.files && this.files[0];
+                    if (!file) return;
+
+                    const url = URL.createObjectURL(file);
+                    img.src = url;
+                    img.classList.remove('d-none');
+                });
+            }
+
+            attachImagePreview('profile_picture_input', 'profile_preview');
+            attachImagePreview('signature_input', 'signature_preview');
+        });
+    </script>
+
 @endsection

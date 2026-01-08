@@ -34,7 +34,7 @@
                                                 <div>
                                                     <div class="text-center mt-1">
                                                         <h4 class="font-size-18">Welcome Back !</h4>
-                                                        <p class="text-muted">Sign in to continue to Tocly.</p>
+                                                        <p class="text-muted">Sign in to continue to DMS Billing.</p>
                                                     </div>
 
                                                     <form method="POST" action="{{ route('login') }}" class="auth-input">
@@ -63,13 +63,13 @@
                                                             @enderror
                                                         </div> --}}
                                                         <div class="password-field" >
-                                                            <label class="form-label" for="password-input">Change Password</label>
+                                                            <label class="form-label" for="password-input">Password</label>
                                                             <div class="position-relative">
                                                                 <input type="password"
                                                                     class="form-control password-input @error('password') is-invalid @enderror"
                                                                     id="password-input"
                                                                     name="password"
-                                                                    placeholder="Enter New password">
+                                                                    placeholder="Enter Password">
                                                                 <button type="button"
                                                                         class="btn btn-link text-muted position-absolute end-0 top-50 translate-middle-y password-toggle p-0"
                                                                         tabindex="-1">
@@ -87,22 +87,22 @@
                                                         </div>
 
                                                         <div class="form-check d-flex justify-content-between">
-                                                            <div>
+                                                            {{-- <div>
                                                                 <input class="form-check-input" type="checkbox"
                                                                     name="remember" id="remember"
                                                                     {{ old('remember') ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="remember">Remember
                                                                     me</label>
-                                                            </div>
-                                                            <a href="{{ route('password.update') }}" class="text-end">Forget Password?</a>
+                                                            </div> --}}
+                                                            {{-- <a href="{{ route('password.update') }}" class="text-end">Forget Password?</a> --}}
                                                         </div>
 
-                                                        <div class="mt-4">
+                                                        <div class="mt-4 mb-4">
                                                             <button class="btn btn-primary w-100" type="submit">Sign
                                                                 In</button>
                                                         </div>
 
-                                                        <div class="mt-4 pt-2 text-center">
+                                                        {{-- <div class="mt-4 pt-2 text-center">
                                                             <div class="signin-other-title">
                                                                 <h5 class="font-size-14 mb-4 title">Sign In with</h5>
                                                             </div>
@@ -116,7 +116,7 @@
                                                                 <button type="button" class="btn btn-info btn-sm"><i
                                                                         class="ri-twitter-fill font-size-16"></i></button>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
                                                     </form>
                                                 </div>
 

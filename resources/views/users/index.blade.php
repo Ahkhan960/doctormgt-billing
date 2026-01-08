@@ -20,6 +20,11 @@
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         {{--
         <div class="card">
@@ -146,9 +151,11 @@
                                                             onsubmit="return confirm('Are you sure you want to delete this user?');">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="dropdown-item text-danger">
-                                                                <i class="ri-delete-bin-line me-1 align-middle"></i> Trash
-                                                            </button>
+                                                            @if($user->role !== 'admin')
+                                                                <button type="submit" class="dropdown-item text-danger">
+                                                                    <i class="ri-delete-bin-line me-1 align-middle"></i> Trash
+                                                                </button>
+                                                            @endif
                                                         </form>
                                                         <form action="{{ route('users.force-logout', $user) }}"
                                                             method="POST"

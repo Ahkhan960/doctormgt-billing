@@ -365,7 +365,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a href="{{ route('users.index') }}">User list</a></li>
-                        <li><a href="{{ route('users.create') }}">Add New User</a></li>
+                        {{-- <li><a href="{{ route('users.create') }}">Add New User</a></li> --}}
                         <li><a href="{{ route('users.trash') }}">Trash</a></li>
                     </ul>
                 </li>
