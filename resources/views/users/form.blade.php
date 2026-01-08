@@ -111,6 +111,7 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Date of Birth</label>
                             <input type="date" name="dob"
+                                    max="{{ now()->format('Y-m-d') }}"
                                    value="{{ old('dob', optional($user->dob)->format('Y-m-d')) }}"
                                    class="form-control @error('dob') is-invalid @enderror">
                             @error('dob')<div class="invalid-feedback">{{ $message }}</div>@enderror

@@ -40,10 +40,14 @@
             keepAliveUrl: '{{ url('/') }}',                 // or any cheap URL
             logoutButton: 'Logout',
             logoutUrl: '{{ route('auto.logout') }}',        // the route you added above
-            redirUrl: '{{ route('auto.logout') }}',               // where to land after timeout
-            warnAfter: 10 * 1000,                           // show dialog after 25s idle
-            redirAfter: 20 * 1000,                          // actually log out at 30s
+            redirUrl: '{{ route('auto.logout') }}',         // where to land after timeout
+            warnAfter: 300 * 1000,                           // show dialog after 25s idle
+            redirAfter: 330 * 1000,                          // actually log out at 30s
             countdownMessage: 'Redirecting in {timer} seconds.'
+        });
+         // Ensure "Stay Connected" closes the popup
+        $(document).on('click', '#session-timeout-dialog-keepalive', function () {
+            $('#session-timeout-dialog').modal('hide');
         });
     });
 </script>

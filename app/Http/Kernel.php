@@ -37,7 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'check.status',
-            'inactivity.logout',
+            // 'inactivity.logout',
         ],
 
         'api' => [
@@ -67,6 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'check.status' => \App\Http\Middleware\CheckUserStatus::class,
-        'inactivity.logout' => \App\Http\Middleware\InactivityLogout::class,
+        // 'inactivity.logout' => \App\Http\Middleware\InactivityLogout::class,
     ];
 }

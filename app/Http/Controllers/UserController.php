@@ -83,7 +83,7 @@ class UserController extends Controller
                 'regex:/^[A-Za-z\'\- ]+$/'
             ],
             'phone'              => ['nullable', 'regex:/^\(\d{3}\)\s\d{3}-\d{4}$/'],
-            'dob'              => ['nullable', 'date'],
+            'dob' => ['nullable', 'date', 'before_or_equal:today'],
             'profile_picture'  => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'signature'        => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             ],
@@ -97,6 +97,7 @@ class UserController extends Controller
                 'employee_id.regex'        => 'Employee ID may only contain letters, numbers, and hyphens.',
                 'pseudo_first_name.regex'  => 'Pseudo first name may only contain letters.',
                 'pseudo_last_name.regex'   => 'Pseudo last name may only contain letters.',
+                'dob.before_or_equal' => 'Date of birth cannot be in the future.',
             ]
         );
 
@@ -166,7 +167,7 @@ class UserController extends Controller
                 'regex:/^[A-Za-z\'\- ]+$/'
             ],
             'phone'              => ['nullable', 'regex:/^\(\d{3}\)\s\d{3}-\d{4}$/'],
-            'dob'              => ['nullable', 'date'],
+            'dob' => ['nullable', 'date', 'before_or_equal:today'],
             'profile_picture'  => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'signature'        => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             ],
@@ -180,6 +181,7 @@ class UserController extends Controller
                 'employee_id.regex'        => 'Employee ID may only contain letters, numbers, and hyphens.',
                 'pseudo_first_name.regex'  => 'Pseudo first name may only contain letters.',
                 'pseudo_last_name.regex'   => 'Pseudo last name may only contain letters.',
+                'dob.before_or_equal' => 'Date of birth cannot be in the future.',
             ]
         );
 
