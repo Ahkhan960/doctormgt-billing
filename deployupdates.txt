@@ -77,6 +77,9 @@ Done ✅
 /opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
 /opt/cpanel/ea-php82/root/usr/bin/php artisan config:cache
 
+for images and files:
+/opt/cpanel/ea-php82/root/usr/bin/php artisan storage:link
+
 ✅ CASE 4: New Packages Added (RARE)
 
 ⚠️ Only if composer.json changed:

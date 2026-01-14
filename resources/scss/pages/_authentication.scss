@@ -7,7 +7,7 @@
 }
 
 .bg-auth {
-    background-image: url(../images/loginpageimage.PNG);
+    background-image: url("/images/loginpageimage.PNG");
     background-position: bottom;
     background-size: cover;
     background-repeat: no-repeat;
@@ -52,7 +52,7 @@
     content: "";
     position: absolute;
     inset: 0; // top:0; right:0; bottom:0; left:0;
-    background-image: url("../images/monogram.png");
+    background-image: url("/images/monogram.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 80%; // adjust size of watermark

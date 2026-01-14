@@ -33,7 +33,7 @@
                                             <div class="p-lg-5 p-4">
                                                 <div>
                                                     <div class="text-center mt-1">
-                                                        <img src="{{ URL::asset('build/images/loginpagelogo.png') }}" alt="" style="width: 50%; padding-bottom: 40px">
+                                                        <img src="{{ asset('images/loginpagelogo.png') }}" alt="" style="width: 50%; padding-bottom: 40px">
                                                         <h1 class="font-size-30" style="padding-bottom: 10px">Sign In</h1>
                                                         <p class="text-muted">Sign in to continue to DMS Billing.</p>
                                                     </div>
