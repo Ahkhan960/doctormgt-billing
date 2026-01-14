@@ -6,22 +6,22 @@
     <div class="auth-maintenance d-flex align-items-center min-vh-100">
         <div class="bg-overlay bg-light"></div>
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center 3">
                 <div class="col-md-10">
                     <div class="auth-full-page-content d-flex min-vh-100 py-sm-5 py-4">
                         <div class="w-100">
                             <div class="d-flex flex-column h-100 py-0 py-xl-3">
                                 <div class="text-center mb-4">
-                                    <a href="index" class="">
-                                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt=""
+                                    {{-- <a href="index" class="">
+                                        <img src="{{ URL::asset('build/images/monogram.png') }}" alt=""
                                             height="22" class="auth-logo logo-dark mx-auto">
-                                        <img src="{{ URL::asset('build/images/logo-light.png') }}" alt=""
+                                        <img src="{{ URL::asset('build/images/monogram.png') }}" alt=""
                                             height="22" class="auth-logo logo-light mx-auto">
-                                    </a>
-                                    <p class="text-muted mt-2">User Experience & Interface Design Strategy Saas Solution</p>
+                                    </a> --}}
+                                    <p class="text-muted mt-2">You care for your patients; We care for your business</p>
                                 </div>
 
-                                <div class="card my-auto overflow-hidden">
+                                <div style="border-radius: 25px;" class="card my-auto overflow-hidden">
                                     <div class="row g-0">
                                         <div class="col-lg-6">
                                             <div class="bg-overlay bg-primary"></div>
@@ -29,19 +29,22 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 login-watermark">
                                             <div class="p-lg-5 p-4">
                                                 <div>
                                                     <div class="text-center mt-1">
-                                                        <h4 class="font-size-18">Welcome Back !</h4>
+                                                        <img src="{{ URL::asset('build/images/loginpagelogo.png') }}" alt="" style="width: 50%; padding-bottom: 40px">
+                                                        <h1 class="font-size-30" style="padding-bottom: 10px">Sign In</h1>
                                                         <p class="text-muted">Sign in to continue to DMS Billing.</p>
                                                     </div>
 
-                                                    <form method="POST" action="{{ route('login') }}" class="auth-input">
+                                                    <form method="POST" action="{{ route('login') }}" class="auth-input" style="padding-left:60px; padding-right:60px;">
                                                         @csrf
                                                        <div class="form-group">
-                                                            <label for="login">Email or Username</label>
+                                                            {{-- <label for="login">Email or Username</label> --}}
                                                             <input id="login" type="text"
+                                                                placeholder="Email or Username"
+                                                                style="border-radius: 25px;"
                                                                 class="form-control @error('login') is-invalid @enderror"
                                                                 name="login" value="{{ old('login') }}" required autofocus>
 
@@ -63,9 +66,10 @@
                                                             @enderror
                                                         </div> --}}
                                                         <div class="password-field" >
-                                                            <label class="form-label" for="password-input">Password</label>
+                                                            <label style="background: transparent;" class="form-label" for="password-input">Password</label>
                                                             <div class="position-relative">
                                                                 <input type="password"
+                                                                    style="border-radius: 25px; background: transparent;"
                                                                     class="form-control password-input @error('password') is-invalid @enderror"
                                                                     id="password-input"
                                                                     name="password"
@@ -86,19 +90,19 @@
                                                             </div> --}}
                                                         </div>
 
-                                                        <div class="form-check d-flex justify-content-between">
-                                                            {{-- <div>
+                                                        {{-- <div class="form-check d-flex justify-content-between">
+                                                            <div>
                                                                 <input class="form-check-input" type="checkbox"
                                                                     name="remember" id="remember"
                                                                     {{ old('remember') ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="remember">Remember
                                                                     me</label>
-                                                            </div> --}}
-                                                            {{-- <a href="{{ route('password.update') }}" class="text-end">Forget Password?</a> --}}
-                                                        </div>
+                                                            </div>
+                                                            <a href="{{ route('password.update') }}" class="text-end">Forget Password?</a>
+                                                        </div> --}}
 
-                                                        <div class="mt-4 mb-4">
-                                                            <button class="btn btn-primary w-100" type="submit">Sign
+                                                        <div style="padding-left:10px; padding-right:10px;" class="mt-4 mb-4">
+                                                            <button style="border-radius: 25px; background-color:black" class="btn btn-dark w-100" type="submit">Sign
                                                                 In</button>
                                                         </div>
 
@@ -135,8 +139,8 @@
                                     <p class="mb-0">©
                                         <script>
                                             document.write(new Date().getFullYear())
-                                        </script> Tocly. Crafted with <i
-                                            class="mdi mdi-heart text-danger"></i> by Themesdesign
+                                        </script> Doctor Management Services. Crafted with <i
+                                            class="mdi mdi-heart text-danger"></i> by DMS IT Team
                                     </p>
                                 </div>
                             </div>
@@ -153,7 +157,7 @@
     <!-- App js -->
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
         <script>
-            // password strength meter
+            // password strength meter/ password show hide functionality
             document.addEventListener('DOMContentLoaded', function () {
                 const fields = document.querySelectorAll('.password-field');
 

@@ -1,16 +1,16 @@
-// 
+//
 // authentication.scss
 //
 
-.auth-body-bg{
+.auth-body-bg {
     background-color: $card-bg;
 }
 
 .bg-auth {
-    background-image: url(../images/auth.png);
+    background-image: url(../images/loginpageimage.PNG);
     background-position: bottom;
     background-size: cover;
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
     position: relative;
 }
 
@@ -28,37 +28,53 @@
     background-repeat: no-repeat;
 }
 
-.authentication-bg{
+.authentication-bg {
     background-image: url("../images/authentication-bg.jpg");
     height: 100vh;
     background-size: cover;
     background-position: center;
-    .bg-overlay{
+    .bg-overlay {
         background-color: #292626;
     }
 
     @media (max-width: 991px) {
-            display: none;
+        display: none;
     }
 }
 
-
-.auth-input{
-    .form-label{
+.login-watermark {
     position: relative;
-    left: 14px;
-    top: 11px;
-    line-height: 20px;
-    background: $input-bg;
-    margin: 0;
-    padding: 0 7px;
-    z-index: 1;
-    }
-    .form-control{
-        padding: .9rem 1.2rem;
-    }
+    background-color: white; // or whatever background you want
+    overflow: hidden;
 }
 
+.login-watermark::before {
+    content: "";
+    position: absolute;
+    inset: 0; // top:0; right:0; bottom:0; left:0;
+    background-image: url("../images/monogram.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%; // adjust size of watermark
+    opacity: 0.1; // lower = lighter watermark
+    pointer-events: none; // clicks pass through
+}
+
+.auth-input {
+    .form-label {
+        position: relative;
+        left: 14px;
+        top: 11px;
+        line-height: 20px;
+        background: $input-bg;
+        margin: 0;
+        padding: 0 7px;
+        z-index: 1;
+    }
+    .form-control {
+        padding: 0.9rem 1.2rem;
+    }
+}
 
 .signin-other-title {
     position: relative;
@@ -83,24 +99,22 @@
     }
 }
 
-
-
-.auth-logo{
-    &.logo-light{
-      display: $display-none;
+.auth-logo {
+    &.logo-light {
+        display: $display-none;
     }
     &.logo-dark {
-      display: $display-block;
+        display: $display-block;
     }
-  }
+}
 
-  [data-bs-theme ="dark"] {
-    .auth-logo{
-        &.logo-light{
+[data-bs-theme="dark"] {
+    .auth-logo {
+        &.logo-light {
             display: $display-block;
         }
         &.logo-dark {
             display: $display-none;
         }
-      }
-  }
+    }
+}
